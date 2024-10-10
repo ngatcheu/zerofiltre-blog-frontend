@@ -7,6 +7,7 @@ on:
     branches: 
       - '*'
     branches-ignore:
+      - 'main'
       - 'otlp'
       - 'otlp-*'
   pull_request:
