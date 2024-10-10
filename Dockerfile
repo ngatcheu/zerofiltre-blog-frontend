@@ -15,6 +15,11 @@ FROM node:16-alpine as prod
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV OTEL_TRACES_EXPORTER="otlp"
+ENV OTEL_EXPORTER_OTLP_ENDPOINT="otelcol-opentelemetry-collector.zerofiltre-bootcamp.svc:4317"
+ENV OTEL_NODE_RESOURCE_DETECTORS="env,host,os"
+ENV OTEL_SERVICE_NAME="zerofiltre-blog-frontend"
+ENV NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
 
 COPY --from=deps /app/dist ./dist
 
