@@ -1,4 +1,4 @@
-name: Angular CI/CD Pipeline for pushing in dockerhub
+name: Angular CI/CD pipeline for DockerHub deployment
 
 on:
   push:
