@@ -3,13 +3,6 @@
 name: Angular CI/CD Pipeline with k8s
 
 on:
-  push:
-    branches: 
-      - '*'
-    branches-ignore:
-      - 'main'
-      - 'otlp'
-      - 'otlp-*'
   pull_request:
     branches: 
       - main
