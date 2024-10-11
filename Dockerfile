@@ -24,4 +24,4 @@ ENV NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
 COPY --from=deps /app/dist ./dist
 
 
-ENTRYPOINT ["sh", "-c", "source /vault/secrets/config && node dist/zerofiltre-blog/server/main.js"]
+ENTRYPOINT ["sh", "-c", "node dist/zerofiltre-blog/server/main.js"]
