@@ -1,5 +1,5 @@
-FROM node:latest AS deps
-LABEL stage=deps
+FROM node:latest AS build
+LABEL stage=build
 LABEL autodelete="true"
 
 WORKDIR /app
@@ -11,19 +11,25 @@ RUN npm install -f
 COPY . .
 RUN ng build && ng run zerofiltre-blog:server
 
-FROM node:16-alpine as prod
+
+FROM node:latest AS deps
+LABEL stage=deps
+LABEL autodelete="true"
 
 WORKDIR /app
-COPY --from=deps /app/dist ./dist
+COPY package.json .
 
-COPY package.json ./
 RUN npm install -f --production
+RUN npm install -f --save @opentelemetry/api
+RUN npm install -f --save @opentelemetry/auto-instrumentations-node
+
+
+FROM node:16-alpine AS prod
+WORKDIR /app
+
+COPY --from=build /app/dist ./dist
+COPY --from=deps /app/node_modules ./node_modules
 
 ENV NODE_ENV="production"
-ENV OTEL_TRACES_EXPORTER="otlp"
-ENV OTEL_EXPORTER_OTLP_ENDPOINT="otelcol-opentelemetry-collector.zerofiltre-bootcamp.svc:4317"
-ENV OTEL_NODE_RESOURCE_DETECTORS="env,host,os"
-ENV OTEL_SERVICE_NAME="zerofiltre-blog-frontend"
-ENV NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
 
-ENTRYPOINT ["sh", "-c", "node dist/zerofiltre-blog/server/main.js"]
+ENTRYPOINT ["sh", "-c", "node --require @opentelemetry/auto-instrumentations-node/register dist/zerofiltre-blog/server/main.js"]

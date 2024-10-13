@@ -56,6 +56,18 @@
 
 
     <url>
+    <loc>https://zerofiltre.tech/articles/308-comment-configurer-un-environnement-multi-stage-developpement-production-staging-dans-nextjs</loc>
+    <lastmod>2024-09-26</lastmod>
+    <priority>0.80</priority>
+    </url>
+    
+    <url>
+    <loc>https://zerofiltre.tech/articles/309-la-plateforme-zerofiltre-piratee-ce-que-nous-en-retenons</loc>
+    <lastmod>2024-09-26</lastmod>
+    <priority>0.80</priority>
+    </url>
+    
+    <url>
     <loc>https://zerofiltre.tech/articles/296-lutilite-des-skeleton-screens-dans-la-conception-dinterfaces-utilisateur</loc>
     <lastmod>2024-07-21</lastmod>
     <priority>0.80</priority>
@@ -81,7 +93,7 @@
     
     <url>
     <loc>https://zerofiltre.tech/articles/293-kubernetes-resources-recommender-krr</loc>
-    <lastmod>2024-04-26</lastmod>
+    <lastmod>2024-09-22</lastmod>
     <priority>0.80</priority>
     </url>
     
