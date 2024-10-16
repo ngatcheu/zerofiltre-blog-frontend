@@ -5,17 +5,17 @@ metadata:
   namespace: willbrid
   name: zerofiltre-blog-frontend-willbrid
 data:
-  API_BASE_URL: https://blog-api-dev.zerofiltre.tech
+  API_BASE_URL: https://imphilippesimo.blog-api.zerofiltre.tech
   BLOG_URL: https://willbrid-blog.zerofiltre.tech
-  COURSES_URL: https://dev.zerofiltre.tech/cours
+  COURSES_URL: https://imphilippesimo.blog-api.zerofiltre.tech/cours
   GITHUB_CLIENT_ID: xxxxxxx
-  GITHUB_REDIRECT_URL: https://dev.zerofiltre.tech/user/social-auth
+  GITHUB_REDIRECT_URL: https://imphilippesimo.blog-api.zerofiltre.tech/user/social-auth
   OVH_AUTH_NAME: xxxxxxx
   OVH_AUTH_URL: https://auth.cloud.ovh.net/v3/auth/tokens?nocatalog
   OVH_SERVER_URL: https://storage.gra.cloud.ovh.net/v1/xxxxxxx/zerofiltre-object-container
   SERVICES_URL: https://dev.services.zerofiltre.tech
   STACK_OVERFLOW_CLIENT_ID: '22742'
-  STACK_OVERFLOW_REDIRECT_URL: https://dev.zerofiltre.tech/user/social-auth
+  STACK_OVERFLOW_REDIRECT_URL: https://imphilippesimo.blog-api.zerofiltre.tech/user/social-auth
   COURSE_ROUTES_ACTIVE: 'true'
   SCHOOL_API_BASE: http://localhost:3000
   BANNER_VISIBLE: 'false'
@@ -35,7 +35,7 @@ metadata:
   name: zerofiltre-blog-frontend-willbrid
 type: Opaque
 data:
-  OVH_AUTH_PASSWORD: xxxxxxx
+  OVH_AUTH_PASSWORD: eHh4eHh4eA==
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,17 +69,17 @@ spec:
             name: zerofiltre-blog-frontend-willbrid
         resources:
           requests:
-            cpu: 0.1
+            cpu: '0.01'
             memory: '50Mi'
           limits:
-            cpu: 0.5
+            cpu: '0.5'
             memory: 512Mi
         livenessProbe:
           tcpSocket:
             port: 4000
           initialDelaySeconds: 20
           periodSeconds: 10
-          
+
 ---
 apiVersion: v1
 kind: Service
@@ -117,4 +117,4 @@ spec:
   tls:
   - hosts:
     - willbrid-blog.zerofiltre.tech
-    secretName: zerofiltre-blog-frontend-willbrid-cert 
+    secretName: zerofiltre-blog-frontend-willbrid-cert
