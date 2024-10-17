@@ -2,20 +2,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: <your_namespace>
+  name: zerofiltre-blog-frontend-<your_namespace>
 data:
-  API_BASE_URL: https://imphilippesimo.blog-api.zerofiltre.tech
-  BLOG_URL: https://willbrid-blog.zerofiltre.tech
-  COURSES_URL: https://imphilippesimo.blog-api.zerofiltre.tech/cours
+  API_BASE_URL: https://<your_namespace>.blog-api.zerofiltre.tech
+  BLOG_URL: https://<your_namespace>-blog.zerofiltre.tech
+  COURSES_URL: https://<your_namespace>.blog-api.zerofiltre.tech/cours
   GITHUB_CLIENT_ID: xxxxxxx
-  GITHUB_REDIRECT_URL: https://imphilippesimo.blog-api.zerofiltre.tech/user/social-auth
+  GITHUB_REDIRECT_URL: https://<your_namespace>.blog-api.zerofiltre.tech/user/social-auth
   OVH_AUTH_NAME: xxxxxxx
   OVH_AUTH_URL: https://auth.cloud.ovh.net/v3/auth/tokens?nocatalog
   OVH_SERVER_URL: https://storage.gra.cloud.ovh.net/v1/xxxxxxx/zerofiltre-object-container
   SERVICES_URL: https://dev.services.zerofiltre.tech
   STACK_OVERFLOW_CLIENT_ID: '22742'
-  STACK_OVERFLOW_REDIRECT_URL: https://imphilippesimo.blog-api.zerofiltre.tech/user/social-auth
+  STACK_OVERFLOW_REDIRECT_URL: https://<your_namespace>.blog-api.zerofiltre.tech/user/social-auth
   COURSE_ROUTES_ACTIVE: 'true'
   SCHOOL_API_BASE: http://localhost:3000
   BANNER_VISIBLE: 'false'
@@ -23,16 +23,17 @@ data:
   BANNER_LINK: 'pro'
   BANNER_TEXT: 'Désormais, vous pouvez payer votre abonnement PRO par Mobile Money et Paypal!'
   BANNER_BACKGROUND_COLOR: '#052b5d'
-  OTEL_TRACES_EXPORTER: "otlp"
-  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otelcol-opentelemetry-collector.zerofiltre-bootcamp.svc:4318"
+  #define otel env variables here
+  #  OTEL_TRACES_EXPORTER: ...
+  #  OTEL_EXPORTER_OTLP_ENDPOINT: "http://..."
   OTEL_NODE_RESOURCE_DETECTORS: "env,host,os"
-  OTEL_SERVICE_NAME: "zerofiltre-blog-frontend-willbrid"
+#  OTEL_SERVICE_NAME: "zerofiltre-blog-frontend-<your_namespace>"
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: <your_namespace>
+  name: zerofiltre-blog-frontend-<your_namespace>
 type: Opaque
 data:
   OVH_AUTH_PASSWORD: eHh4eHh4eA==
@@ -40,81 +41,81 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: <your_namespace>
+  name: zerofiltre-blog-frontend-<your_namespace>
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 120
   replicas: 1
   selector:
     matchLabels:
-      app: zerofiltre-blog-frontend-willbrid
+      app: zerofiltre-blog-frontend-<your_namespace>
   template:
     metadata:
       labels:
-        app: zerofiltre-blog-frontend-willbrid
+        app: zerofiltre-blog-frontend-<your_namespace>
     spec:
       containers:
-      - name: zerofiltre-blog-frontend-willbrid
-        image: imzerofiltre/zerofiltretech-blog-front:7_willbrid
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: http-port
-          containerPort: 4000
-          protocol: TCP
-        envFrom:
-        - configMapRef:
-            name: zerofiltre-blog-frontend-willbrid
-        - secretRef:
-            name: zerofiltre-blog-frontend-willbrid
-        resources:
-          requests:
-            cpu: 0.1
-            memory: '50Mi'
-          limits:
-            cpu: 0.5
-            memory: 512Mi
-        livenessProbe:
-          tcpSocket:
-            port: 4000
-          initialDelaySeconds: 20
-          periodSeconds: 10
+        - name: zerofiltre-blog-frontend-<your_namespace>
+          image: imzerofiltre/zerofiltretech-blog-front:7_<your_namespace>
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http-port
+              containerPort: 4000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: zerofiltre-blog-frontend-<your_namespace>
+            - secretRef:
+                name: zerofiltre-blog-frontend-<your_namespace>
+          resources:
+            requests:
+              cpu: 0.1
+              memory: '50Mi'
+            limits:
+              cpu: 0.5
+              memory: 512Mi
+          livenessProbe:
+            tcpSocket:
+              port: 4000
+            initialDelaySeconds: 20
+            periodSeconds: 10
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: <your_namespace>
+  name: zerofiltre-blog-frontend-<your_namespace>
 spec:
   ports:
     - protocol: TCP
       port: 80
       targetPort: http-port
   selector:
-    app: zerofiltre-blog-frontend-willbrid
+    app: zerofiltre-blog-frontend-<your_namespace>
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: <your_namespace>
+  name: zerofiltre-blog-frontend-<your_namespace>
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-    - host: willbrid-blog.zerofiltre.tech
+    - host: <your_namespace>-blog.zerofiltre.tech
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: zerofiltre-blog-frontend-willbrid
+                name: zerofiltre-blog-frontend-<your_namespace>
                 port:
                   number: 80
   tls:
-  - hosts:
-    - willbrid-blog.zerofiltre.tech
-    secretName: zerofiltre-blog-frontend-willbrid-cert
+    - hosts:
+        - <your_namespace>-blog.zerofiltre.tech
+      secretName: zerofiltre-blog-frontend-<your_namespace>-cert
