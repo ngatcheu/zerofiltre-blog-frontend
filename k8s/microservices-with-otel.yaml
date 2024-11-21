@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: nsfabrice2009
+  name: zerofiltre-blog-frontend-nsfabrice2009
 data:
   API_BASE_URL: https://imphilippesimo.blog-api.zerofiltre.tech
   BLOG_URL: https://willbrid-blog.zerofiltre.tech
@@ -26,13 +26,13 @@ data:
   OTEL_TRACES_EXPORTER: "otlp"
   OTEL_EXPORTER_OTLP_ENDPOINT: "http://otelcol-opentelemetry-collector.zerofiltre-bootcamp.svc:4318"
   OTEL_NODE_RESOURCE_DETECTORS: "env,host,os"
-  OTEL_SERVICE_NAME: "zerofiltre-blog-frontend-willbrid"
+  OTEL_SERVICE_NAME: "zerofiltre-blog-frontend-nsfabrice2009"
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: nsfabrice2009
+  name: zerofiltre-blog-frontend-nsfabrice2009
 type: Opaque
 data:
   OVH_AUTH_PASSWORD: eHh4eHh4eA==
@@ -40,23 +40,23 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: nsfabrice2009
+  name: zerofiltre-blog-frontend-nsfabrice2009
 spec:
   minReadySeconds: 30
   progressDeadlineSeconds: 120
   replicas: 1
   selector:
     matchLabels:
-      app: zerofiltre-blog-frontend-willbrid
+      app: zerofiltre-blog-frontend-nsfabrice2009
   template:
     metadata:
       labels:
-        app: zerofiltre-blog-frontend-willbrid
+        app: zerofiltre-blog-frontend-nsfabrice2009
     spec:
       containers:
-      - name: zerofiltre-blog-frontend-willbrid
-        image: imzerofiltre/zerofiltretech-blog-front:7_willbrid
+      - name: zerofiltre-blog-frontend-nsfabrice2009
+        image: fabricemicoli/zerofiltre-blog-frontend:v1.0.0
         imagePullPolicy: IfNotPresent
         ports:
         - name: http-port
@@ -64,9 +64,9 @@ spec:
           protocol: TCP
         envFrom:
         - configMapRef:
-            name: zerofiltre-blog-frontend-willbrid
+            name: zerofiltre-blog-frontend-nsfabrice2009
         - secretRef:
-            name: zerofiltre-blog-frontend-willbrid
+            name: zerofiltre-blog-frontend-nsfabrice2009
         resources:
           requests:
             cpu: '0.01'
@@ -84,37 +84,37 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: nsfabrice2009
+  name: zerofiltre-blog-frontend-nsfabrice2009
 spec:
   ports:
     - protocol: TCP
       port: 80
       targetPort: http-port
   selector:
-    app: zerofiltre-blog-frontend-willbrid
+    app: zerofiltre-blog-frontend-nsfabrice2009
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: willbrid
-  name: zerofiltre-blog-frontend-willbrid
+  namespace: nsfabrice2009
+  name: zerofiltre-blog-frontend-nsfabrice2009
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-    - host: willbrid-blog.zerofiltre.tech
+    - host: nsfabrice2009-blog.zerofiltre.tech
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: zerofiltre-blog-frontend-willbrid
+                name: zerofiltre-blog-frontend-nsfabrice2009
                 port:
                   number: 80
   tls:
   - hosts:
-    - willbrid-blog.zerofiltre.tech
+    - nsfabrice2009-blog.zerofiltre.tech
     secretName: zerofiltre-blog-frontend-willbrid-cert

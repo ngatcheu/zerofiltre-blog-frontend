@@ -1,4 +1,4 @@
-FROM node:latest AS build
+FROM node:18 AS build
 LABEL stage=build
 LABEL autodelete="true"
 
@@ -12,7 +12,7 @@ COPY . .
 RUN ng build && ng run zerofiltre-blog:server
 
 
-FROM node:latest AS deps
+FROM node:18 AS deps
 LABEL stage=deps
 LABEL autodelete="true"
 
@@ -24,7 +24,7 @@ RUN npm install -f --save @opentelemetry/api
 RUN npm install -f --save @opentelemetry/auto-instrumentations-node
 
 
-FROM node:16-alpine AS prod
+FROM node:18-alpine3.20 AS prod
 WORKDIR /app
 
 COPY --from=build /app/dist ./dist
